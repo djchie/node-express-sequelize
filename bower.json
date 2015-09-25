@@ -1,5 +1,5 @@
 {
-  "name": "express-node-postgresql-api",
+  "name": "express-node-sequelize",
   "version": "0.0.0",
   "authors": [],
   "license": "MIT",
