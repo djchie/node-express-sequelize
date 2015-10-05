@@ -16,6 +16,14 @@ db.sequelize.sync({
 // Create an express app
 var app = express();
 
+// CORS Settings
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(express.static(__dirname + '/client'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
@@ -31,6 +39,10 @@ var port = process.env.PORT || 8080;
 
 // ROUTES FOR OUR API
 // =============================================================================
+
+var inventoriesRouter = require('./routers/inventoriesRouter');
+var productsRouter = require('./routers/productsRouter');
+var storesRouter = require('./routers/storesRouter');
 
 var router = express.Router();
 
@@ -49,61 +61,12 @@ router.get('/', function (req, res) {
   });
 });
 
-// On routes that end in /product
-router.route('/product')
-
-  // Ideally post will create a product
-  .post(function (req, res) {
-    db.Product.findOrCreate({
-      where: {
-        name: req.body.name,
-        pictureUrl: req.body.pictureUrl,
-        description: req.body.description,
-        manufacturer: req.body.manufacturer,
-        category: req.body.category,
-        type: req.body.type
-      }
-    }).spread(function (product, created) {
-      if (!created) {
-        console.log('Product already exists and was not created');
-      } else {
-        console.log('Product created!');
-      }
-      res.json(product);
-    });
-    
-  });
-
-// On routes that end in /products
-router.route('/products/:location/:searchTerm/:category')
-
-  // Ideally get will retrieve all products given search parameters in url
-  // .get(function (req, res) {
-
-  //   var search = {
-  //     'searchParams' :{
-  //       'location': req.params.location,
-  //       'searchTerm': req.params.searchTerm,
-  //       'category': req.params.category
-  //     }
-  //   }
-
-  //   res.json(search);
-
-  //   // db.Product.findAll().then(function (products) {
-  //   //   // Ideally, this sends an html response via res.sendFile()
-  //   //   res.json(products);
-  //   // });
-  // });
-
-  .get(function (req, res) {
-
-    db.Product.findAll().then(function (products) {
-      // Ideally, this sends an html response via res.sendFile()
-      res.json(products);
-    });
-
-  });
+// Routes for api/inventories
+app.use('/inventories', inventoriesRouter);
+// Routes for api/products
+app.use('/products', productsRouter);
+// Routes for api/stores
+app.use('/stores', storesRouter);
 
 
 // REGISTER OUR ROUTES -------------------------------
@@ -117,7 +80,7 @@ router.route('/products/:location/:searchTerm/:category')
 // route to use to use the data to render
 // app.use('/api', router);
 
-// All of our routes will be prefixed with /
-app.use('/', router);
+// All of our routes will be prefixed with /api
+app.use('/api', router);
 
 module.exports = app;

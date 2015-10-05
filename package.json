@@ -4,6 +4,7 @@
   "dependencies": {
     "body-parser": "~1.13.2",
     "express": "~4.13.1",
-    "sequelize": "^3.3.2"
+    "sequelize": "^3.3.2",
+    "validator": "^4.0.6"
   }
 }
