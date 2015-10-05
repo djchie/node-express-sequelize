@@ -44,6 +44,9 @@ Terminal 2
   - Add in database names to the config/config.json file
   - Build front end using framework of your choice
 
+# Development Todos
+  - Separate express routers and database calls
+
 # Development
   - Start database server
   - nodemon server.js
