@@ -13,7 +13,7 @@ router.route('/')
     });
   });
 
-router.route('/:inventoryid')
+router.route('/id/:inventoryid')
   // Get all inventory object inventoryid
   .get(function (req, res) {
     if (!validator.isUUID(req.params.inventoryid)) {

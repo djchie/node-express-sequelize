@@ -13,7 +13,7 @@ router.route('/')
     });
   });
 
-router.route('/:productid')
+router.route('/id/:productid')
   // Get all product object productid
   .get(function (req, res) {
     if (!validator.isUUID(req.params.productid)) {

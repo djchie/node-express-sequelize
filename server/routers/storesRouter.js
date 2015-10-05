@@ -13,7 +13,7 @@ router.route('/')
     });
   });
 
-router.route('/:storeid')
+router.route('/id/:storeid')
   // Get all store object storeid
   .get(function (req, res) {
     if (!validator.isUUID(req.params.storeid)) {
